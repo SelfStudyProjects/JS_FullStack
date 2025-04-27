@@ -1,13 +1,25 @@
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import Customer from './components/customer';
 
-function App() {
-  return (
-    <div className="gray-background">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h2>Let's develop management sysyem!</h2>
-    </div>
-  );
+const customers = {
+    'name': '나자신',
+    'birthday': '961222',
+    'gender': '남자',
+    'job': '대학생'
+  }
+
+class App extends Component {
+  render() {
+    return (
+      <Customer 
+        name={customers.name}
+        birthday={customers.birthday}
+        gender={customers.gender}
+        job={customers.job}
+      />
+    );
+  }
 }
 
 export default App;
