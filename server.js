@@ -13,29 +13,29 @@ app.get('/api/hello', (req, res) => {
 app.get('/api/customers', (req, res) => {
     res.send([
         {
-            'id': 1,
-            'image': 'https://placeimg.com/64/64/1',
-            'name': '나자신',
-            'birthday': '961222',
-            'gender': '남자',
-            'job': '대학생'
-          },
-          {
-            'id': 2,
-            'image': 'https://placeimg.com/64/64/2',
-            'name': '정진영',
-            'birthday': '961022',
-            'gender': '남자',
-            'job': '대학생'
-          },
-          {
-            'id': 3,
-            'image': 'https://placeimg.com/64/64/3',
-            'name': '밉지않은관종',
-            'birthday': '961122',
-            'gender': '남자',
-            'job': '대학생'
-          }
+            "id": 1,
+            "image": "https://placeimg.com/64/64/1",
+            "name": "나자신",
+            "birthday": "961222",
+            "gender": "남자",
+            "job": "대학생"
+        },
+        {
+            "id": 2,
+            "image": "https://placeimg.com/64/64/2",
+            "name": "정진영",
+            "birthday": "961022",
+            "gender": "남자",
+            "job": "대학생"
+        },
+        {
+            "id": 3,
+            "image": "https://placeimg.com/64/64/3",
+            "name": "밉지않은관종",
+            "birthday": "961122",
+            "gender": "남자",
+            "job": "대학생"
+        }
     ]);
 });
 

@@ -7,77 +7,134 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell'; 
 import Paper from '@mui/material/Paper';
-import { withStyles } from '@mui/styles';
+import { withStyles } from '@mui/material/styles';
+import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-const styles = {
+const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: 3,
+    marginTop: theme.spacing(3),
     overflowX: 'auto',
   },
   table: {
     minWidth: 650,
   },
-};
-
-const customers = [
-  {
-    'id': 1,
-    'image': 'https://placeimg.com/64/64/1',
-    'name': '나자신',
-    'birthday': '961222',
-    'gender': '남자',
-    'job': '대학생'
+  loading: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: '200px',
   },
-  {
-    'id': 2,
-    'image': 'https://placeimg.com/64/64/2',
-    'name': '정진영',
-    'birthday': '961022',
-    'gender': '남자',
-    'job': '대학생'
+  error: {
+    margin: theme.spacing(2),
   },
-  {
-    'id': 3,
-    'image': 'https://placeimg.com/64/64/3',
-    'name': '밉지않은관종',
-    'birthday': '961122',
-    'gender': '남자',
-    'job': '대학생'
+  header: {
+    padding: theme.spacing(2),
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+  },
+  title: {
+    color: theme.palette.primary.contrastText,
   }
-]
+});
+
 class App extends Component {
+  state = {
+    customers: [],
+    loading: true,
+    error: null
+  };
+
+  componentDidMount() {
+    this.fetchCustomers();
+  }
+
+  fetchCustomers = async () => {
+    try {
+      const response = await fetch('/api/customers');
+      if (!response.ok) {
+        throw new Error('서버 응답이 실패했습니다.');
+      }
+      const data = await response.json();
+      this.setState({ 
+        customers: data,
+        loading: false,
+        error: null
+      });
+    } catch (error) {
+      this.setState({
+        loading: false,
+        error: '고객 데이터를 불러오는데 실패했습니다. 다시 시도해주세요.'
+      });
+    }
+  };
+
+  renderTableHeader = () => (
+    <TableHead>
+      <TableRow>
+        <TableCell>번호</TableCell>
+        <TableCell>이미지</TableCell>
+        <TableCell>이름</TableCell>
+        <TableCell>생년월일</TableCell>
+        <TableCell>성별</TableCell>
+        <TableCell>직업</TableCell>
+      </TableRow>
+    </TableHead>
+  );
+
+  renderTableBody = () => {
+    const { customers } = this.state;
+    return (
+      <TableBody>
+        {customers.map(customer => (
+          <Customer
+            key={customer.id}
+            id={customer.id}
+            image={customer.image}
+            name={customer.name}
+            birthday={customer.birthday}
+            gender={customer.gender}
+            job={customer.job}
+          />
+        ))}
+      </TableBody>
+    );
+  };
+
   render() {
     const { classes } = this.props;
+    const { loading, error, customers } = this.state;
+
+    if (loading) {
+      return (
+        <Box className={classes.loading}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+
+    if (error) {
+      return (
+        <Alert severity="error" className={classes.error}>
+          {error}
+        </Alert>
+      );
+    }
+
     return (
-      <div style={{ width: '100%', overflowX: 'auto' }}>
+      <div>
+        <Box className={classes.header}>
+          <Typography variant="h4" className={classes.title}>
+            고객 관리 시스템
+          </Typography>
+        </Box>
         <Paper className={classes.root}>
-          <Table className={classes.table} style={{ minWidth: 700 }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>번호</TableCell>
-                <TableCell>이미지</TableCell>
-                <TableCell>이름</TableCell>
-                <TableCell>생년월일</TableCell>
-                <TableCell>성별</TableCell>
-                <TableCell>직업</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.map(c => {
-                return (
-                  <Customer
-                    key={c.id}
-                    id={c.id}
-                    image={c.image}
-                    name={c.name}
-                    birthday={c.birthday}
-                    gender={c.gender}
-                    job={c.job}
-                  />
-                );
-              })}
-            </TableBody>
+          <Table className={classes.table}>
+            {this.renderTableHeader()}
+            {this.renderTableBody()}
           </Table>
         </Paper>
       </div>
