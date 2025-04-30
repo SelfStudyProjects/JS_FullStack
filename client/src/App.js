@@ -20,7 +20,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledTable = styled(Table)({
-  minWidth: 650,
+  minWidth: 1080,
 });
 
 const StyledLoadingBox = styled(Box)({
@@ -44,14 +44,20 @@ const StyledTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.primary.contrastText,
 }));
 
+const StyledProgress = styled(CircularProgress)(({ theme }) => ({
+  margin: theme.spacing(2)
+}));
+
 class App extends Component {
   state = {
     customers: [],
     loading: true,
-    error: null
+    error: null,
+    completed: 0,
   };
 
   componentDidMount() {
+    this.timer = setInterval(this.progress, 20);
     this.fetchCustomers();
   }
 
@@ -73,6 +79,11 @@ class App extends Component {
         error: '고객 데이터를 불러오는데 실패했습니다. 다시 시도해주세요.'
       });
     }
+  };
+
+  progress = () => {
+    const { completed } = this.state;
+    this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
   };
 
   renderTableHeader = () => (
@@ -108,7 +119,7 @@ class App extends Component {
   };
 
   render() {
-    const { loading, error, customers } = this.state;
+    const { loading, error, customers, completed } = this.state;
 
     return (
       <div>
@@ -123,8 +134,8 @@ class App extends Component {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={6} align="center">
-                    <CircularProgress />
+                  <TableCell colSpan="6" align="center">
+                    <CircularProgress variant="determinate" value={completed} />
                   </TableCell>
                 </TableRow>
               ) : error ? (
