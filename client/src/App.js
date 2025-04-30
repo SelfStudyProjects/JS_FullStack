@@ -110,22 +110,6 @@ class App extends Component {
   render() {
     const { loading, error, customers } = this.state;
 
-    if (loading) {
-      return (
-        <StyledLoadingBox>
-          <CircularProgress />
-        </StyledLoadingBox>
-      );
-    }
-
-    if (error) {
-      return (
-        <StyledErrorAlert severity="error">
-          {error}
-        </StyledErrorAlert>
-      );
-    }
-
     return (
       <div>
         <StyledHeaderBox>
@@ -136,7 +120,39 @@ class App extends Component {
         <StyledPaper>
           <StyledTable>
             {this.renderTableHeader()}
-            {this.renderTableBody()}
+            <TableBody>
+              {loading ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    <CircularProgress />
+                  </TableCell>
+                </TableRow>
+              ) : error ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    {error}
+                  </TableCell>
+                </TableRow>
+              ) : customers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center">
+                    등록된 고객이 없습니다.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                customers.map(customer => (
+                  <Customer
+                    key={customer.id}
+                    id={customer.id}
+                    image={customer.image}
+                    name={customer.name}
+                    birthday={customer.birthday}
+                    gender={customer.gender}
+                    job={customer.job}
+                  />
+                ))
+              )}
+            </TableBody>
           </StyledTable>
         </StyledPaper>
       </div>
