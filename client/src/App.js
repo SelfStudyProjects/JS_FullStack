@@ -7,39 +7,42 @@ import TableBody from '@mui/material/TableBody';
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell'; 
 import Paper from '@mui/material/Paper';
-import { withStyles } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing(3),
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 650,
-  },
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: '200px',
-  },
-  error: {
-    margin: theme.spacing(2),
-  },
-  header: {
-    padding: theme.spacing(2),
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.primary.contrastText,
-  },
-  title: {
-    color: theme.palette.primary.contrastText,
-  }
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  width: '100%',
+  marginTop: theme.spacing(3),
+  overflowX: 'auto',
+}));
+
+const StyledTable = styled(Table)({
+  minWidth: 650,
 });
+
+const StyledLoadingBox = styled(Box)({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  minHeight: '200px',
+});
+
+const StyledErrorAlert = styled(Alert)(({ theme }) => ({
+  margin: theme.spacing(2),
+}));
+
+const StyledHeaderBox = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+}));
+
+const StyledTitle = styled(Typography)(({ theme }) => ({
+  color: theme.palette.primary.contrastText,
+}));
 
 class App extends Component {
   state = {
@@ -105,41 +108,40 @@ class App extends Component {
   };
 
   render() {
-    const { classes } = this.props;
     const { loading, error, customers } = this.state;
 
     if (loading) {
       return (
-        <Box className={classes.loading}>
+        <StyledLoadingBox>
           <CircularProgress />
-        </Box>
+        </StyledLoadingBox>
       );
     }
 
     if (error) {
       return (
-        <Alert severity="error" className={classes.error}>
+        <StyledErrorAlert severity="error">
           {error}
-        </Alert>
+        </StyledErrorAlert>
       );
     }
 
     return (
       <div>
-        <Box className={classes.header}>
-          <Typography variant="h4" className={classes.title}>
+        <StyledHeaderBox>
+          <StyledTitle variant="h4">
             고객 관리 시스템
-          </Typography>
-        </Box>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
+          </StyledTitle>
+        </StyledHeaderBox>
+        <StyledPaper>
+          <StyledTable>
             {this.renderTableHeader()}
             {this.renderTableBody()}
-          </Table>
-        </Paper>
+          </StyledTable>
+        </StyledPaper>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(App);
+export default App;
