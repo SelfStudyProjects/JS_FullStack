@@ -6,4 +6,5 @@
 - 이 프로젝트는 프론트엔드와 백엔드를 모두 포함하고 있습니다.
 - React와 Node.js를 활용한 고객 관리 시스템 개발 서비스입니다.
 - 본 개발 프로젝트는 아래 강의 링크를 참고해서 개발했습니다.
-https://www.youtube.com/watch?v=zug4VBcZOrI&list=PLRx0vPvlEmdD1pSqKZiTihy5rplxecNpz&index=8
+
+링크 : https://www.youtube.com/watch?v=zug4VBcZOrI&list=PLRx0vPvlEmdD1pSqKZiTihy5rplxecNpz&index=8
