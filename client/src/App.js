@@ -50,12 +50,22 @@ const StyledProgress = styled(CircularProgress)(({ theme }) => ({
 }));
 
 class App extends Component {
-  state = {
-    customers: [],
-    loading: true,
-    error: null,
-    completed: 0,
-  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: [],
+      completed: 0,
+    }
+  }
+
+  stateRefresh = () => {
+    this.setState({
+      customers: [],
+      completed: 0,
+    });
+    this.fetchCustomers();
+  }
 
   componentDidMount() {
     this.timer = setInterval(this.progress, 20);
@@ -167,7 +177,7 @@ class App extends Component {
             </TableBody>
           </StyledTable>
         </StyledPaper>
-        <CustomerAdd />
+        <CustomerAdd stateRefresh={this.stateRefresh}/>
       </div>
     );
   }

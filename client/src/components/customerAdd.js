@@ -63,7 +63,6 @@ class CustomerAdd extends React.Component {
             console.error('에러:', error);
             this.setState({ error: '고객 추가 중 오류가 발생했습니다.' });
         });
-        window.location.reload();
     }
 
     handleFileChange = (e) => {
