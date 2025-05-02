@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './App.css';
 import Customer from './components/customer';
+import CustomerAdd from './components/customerAdd';
 import Table from '@mui/material/Table';
 import TableHead from '@mui/material/TableHead';
 import TableBody from '@mui/material/TableBody';
@@ -166,6 +167,7 @@ class App extends Component {
             </TableBody>
           </StyledTable>
         </StyledPaper>
+        <CustomerAdd />
       </div>
     );
   }
