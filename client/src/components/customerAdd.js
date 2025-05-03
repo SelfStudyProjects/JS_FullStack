@@ -11,6 +11,11 @@ import {
     MenuItem
 } from '@mui/material';
 
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+
 class CustomerAdd extends React.Component {
     constructor(props) {
         super(props);
@@ -21,9 +26,30 @@ class CustomerAdd extends React.Component {
             gender: '',
             job: '',
             fileName: '',
-            error: null
+            error: null,
+            open: false
         }
     }
+
+    handleClickOpen = () => {
+        this.setState({ 
+            open: true 
+        });
+    }
+
+    handleClose = () => {
+        this.setState({ 
+            file: null,
+            userName: '',
+            birthday: '',
+            gender: '',
+            job: '',
+            fileName: '',
+            open: false
+         });
+    }
+    
+    
 
     handleFormSubmit = (e) => {
         e.preventDefault();
@@ -80,87 +106,97 @@ class CustomerAdd extends React.Component {
 
     render() {
         return (
-            <Box component="form" onSubmit={this.handleFormSubmit} sx={{ maxWidth: 400, mx: 'auto', p: 3 }}>
-                <Typography variant="h4" gutterBottom>
-                    고객 추가
-                </Typography>
-                
-                {this.state.error && (
-                    <Typography color="error" gutterBottom>
-                        {this.state.error}
-                    </Typography>
-                )}
+            <div>
+                <Button variant="contained" color="primary" onClick={this.handleClickOpen}>고객 추가</Button>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>고객 추가</DialogTitle>
+                    <DialogContent>
+                        <TextField type="text" name="userName" value={this.state.userName} onChange={this.handleValueChange} />
+                        <TextField type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange} />
+                        <TextField type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange} />
+                        <TextField type="text" name="job" value={this.state.job} onChange={this.handleValueChange} />
+                    </DialogContent>
+                </Dialog>
 
-                <FormControl fullWidth margin="normal">
-                    <Button
-                        variant="outlined"
-                        component="label"
-                    >
-                        프로필 이미지 선택
-                        <input
-                            type="file"
-                            hidden
-                            onChange={this.handleFileChange}
-                        />
-                    </Button>
-                    {this.state.fileName && (
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                            선택된 파일: {this.state.fileName}
+                {/* 
+                <Box component="form" onSubmit={this.handleFormSubmit} sx={{ maxWidth: 400, mx: 'auto', p: 3 }}>
+                    <Typography variant="h4" gutterBottom>
+                        고객 추가
+                    </Typography>
+                    {this.state.error && (
+                        <Typography color="error" gutterBottom>
+                            {this.state.error}
                         </Typography>
                     )}
-                </FormControl>
-
-                <TextField
-                    fullWidth
-                    margin="normal"
-                    label="이름"
-                    name="userName"
-                    value={this.state.userName}
-                    onChange={this.handleValueChange}
-                />
-                <TextField
-                    fullWidth
-                    margin="normal"
-                    label="생년월일"
-                    name="birthday"
-                    value={this.state.birthday}
-                    onChange={this.handleValueChange}
-                    placeholder="YYMMDD"
-                />
-
-                <FormControl fullWidth margin="normal">
-                    <InputLabel>성별</InputLabel>
-                    <Select
-                        name="gender"
-                        value={this.state.gender}
+                    <FormControl fullWidth margin="normal">
+                        <Button
+                            variant="outlined"
+                            component="label"
+                        >
+                            프로필 이미지 선택
+                            <input
+                                type="file"
+                                hidden
+                                onChange={this.handleFileChange}
+                            />
+                        </Button>
+                        {this.state.fileName && (
+                            <Typography variant="body2" sx={{ mt: 1 }}>
+                                선택된 파일: {this.state.fileName}
+                            </Typography>
+                        )}
+                    </FormControl>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="이름"
+                        name="userName"
+                        value={this.state.userName}
                         onChange={this.handleValueChange}
-                        label="성별"
+                    />
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="생년월일"
+                        name="birthday"
+                        value={this.state.birthday}
+                        onChange={this.handleValueChange}
+                        placeholder="YYMMDD"
+                    />
+                    <FormControl fullWidth margin="normal">
+                        <InputLabel>성별</InputLabel>
+                        <Select
+                            name="gender"
+                            value={this.state.gender}
+                            onChange={this.handleValueChange}
+                            label="성별"
+                        >
+                            <MenuItem value="남자">남자</MenuItem>
+                            <MenuItem value="여자">여자</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        fullWidth
+                        margin="normal"
+                        label="직업"
+                        name="job"
+                        value={this.state.job}
+                        onChange={this.handleValueChange}
+                    />
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        fullWidth
+                        sx={{ mt: 3 }}
                     >
-                        <MenuItem value="남자">남자</MenuItem>
-                        <MenuItem value="여자">여자</MenuItem>
-                    </Select>
-                </FormControl>
-
-                <TextField
-                    fullWidth
-                    margin="normal"
-                    label="직업"
-                    name="job"
-                    value={this.state.job}
-                    onChange={this.handleValueChange}
-                />
-
-                <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    sx={{ mt: 3 }}
-                >
-                    추가하기
-                </Button>
-            </Box>
+                        추가하기
+                    </Button>
+                </Box>
+                */}
+            </div>
         );
     }
+
 }
 
 export default CustomerAdd;
