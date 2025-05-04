@@ -2,12 +2,32 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
 import reportWebVitals from './reportWebVitals';
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Noto Sans KR', serif",
+  },
+});
+
+const cache = createCache({
+  key: 'css',
+  prepend: true,
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <CacheProvider value={cache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </CacheProvider>
   </React.StrictMode>
 );
 
