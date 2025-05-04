@@ -98,6 +98,49 @@ const App = () => {
     return customer.name.indexOf(searchKeyword) > -1;
   });
 
+  // 고객 행 렌더링 함수
+  const renderCustomerRows = () => {
+    if (loading) {
+      return (
+        <TableRow>
+          <TableCell sx={styles.tableCell} colSpan={7} align="center">
+            <CircularProgress variant="determinate" value={completed} />
+          </TableCell>
+        </TableRow>
+      );
+    }
+    if (error) {
+      return (
+        <TableRow>
+          <TableCell sx={styles.tableCell} colSpan={7} align="center">
+            {error}
+          </TableCell>
+        </TableRow>
+      );
+    }
+    if (filteredCustomers.length === 0) {
+      return (
+        <TableRow>
+          <TableCell sx={styles.tableCell} colSpan={7} align="center">
+            등록된 고객이 없습니다.
+          </TableCell>
+        </TableRow>
+      );
+    }
+    return filteredCustomers.map(customer => (
+      <Customer
+        key={customer.id}
+        id={customer.id}
+        image={customer.image}
+        name={customer.name}
+        birthday={customer.birthday}
+        gender={customer.gender}
+        job={customer.job}
+        stateRefresh={stateRefresh}
+      />
+    ));
+  };
+
   // Drawer 열기/닫기 함수
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -183,38 +226,7 @@ const App = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell sx={styles.tableCell} colSpan={7} align="center">
-                  <CircularProgress variant="determinate" value={completed} />
-                </TableCell>
-              </TableRow>
-            ) : error ? (
-              <TableRow>
-                <TableCell sx={styles.tableCell} colSpan={7} align="center">
-                  {error}
-                </TableCell>
-              </TableRow>
-            ) : filteredCustomers.length === 0 ? (
-              <TableRow>
-                <TableCell sx={styles.tableCell} colSpan={7} align="center">
-                  등록된 고객이 없습니다.
-                </TableCell>
-              </TableRow>
-            ) : (
-              filteredCustomers.map(customer => (
-                <Customer
-                  key={customer.id}
-                  id={customer.id}
-                  image={customer.image}
-                  name={customer.name}
-                  birthday={customer.birthday}
-                  gender={customer.gender}
-                  job={customer.job}
-                  stateRefresh={stateRefresh}
-                />
-              ))
-            )}
+            {renderCustomerRows()}
           </TableBody>
         </Table>
       </Paper>
